@@ -1,6 +1,8 @@
 package com.qa.person.demo.rest;
 
 import com.qa.person.demo.domain.Person;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,15 +23,19 @@ public class PersonController {
     // 'maps' the method to a POST request at /crate
     @PostMapping("/create")
     // The Person will be passed in via the request body
-    public Person createPerson(@RequestBody Person p) {
+    public ResponseEntity<Person> createPerson(@RequestBody Person p) {
         people.add(p);
-        return this.people.get(this.people.size() - 1); // return the last element in the list
+        Person created = this.people.get(this.people.size() - 1); // return the last element in the list
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
-    @GetMapping("/get/{bloop}")
-    public Person getPerson(@PathVariable int bloop ) {
-        System.out.println("ID: " + bloop);
-        return null;
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Person> getPerson(@PathVariable int id) {
+        System.out.println("ID: " + id);
+
+        if (id >= this.people.size()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return ResponseEntity.ok(this.people.get(id));
     }
 
     @GetMapping("/getAll")
