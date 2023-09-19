@@ -2,6 +2,7 @@ package com.qa.person.demo.services;
 
 import com.qa.person.demo.domain.Person;
 import com.qa.person.demo.repo.PersonRepo;
+//import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,7 @@
 package com.qa.person.demo;
 
+import com.qa.person.demo.services.PersonService;
+import com.qa.person.demo.services.PersonServiceList;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
