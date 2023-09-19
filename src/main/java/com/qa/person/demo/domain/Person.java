@@ -1,6 +1,15 @@
 package com.qa.person.demo.domain;
 
+import javax.persistence.*;
+
+@Entity // tells Spring this class is linked to a table
+@Table
 public class Person {
+
+    @Id // marks the field as a unique identifier (Primary Key)
+    // sets the field to AUTO_INCREMENT (id starts at 1 and goes up by 1 each new record)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     private String name;
 
@@ -18,6 +27,14 @@ public class Person {
     // REQUIRED
     public Person() {
         super();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
