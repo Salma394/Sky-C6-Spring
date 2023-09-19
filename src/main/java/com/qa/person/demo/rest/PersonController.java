@@ -1,17 +1,24 @@
 package com.qa.person.demo.rest;
 
 import com.qa.person.demo.domain.Person;
+import com.qa.person.demo.services.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController // 'annotates' the class as a controller
 public class PersonController {
 
-    private List<Person> people = new ArrayList<>();
+//    @Autowired // valid but less intuitive/efficient than a constructor
+    private PersonService service;
+
+    // Spring will automatically inject a PersonService when it boots
+    public PersonController(PersonService service) {
+        this.service = service;
+    }
 
     // 'maps' this method to a GET request at /hello
     @GetMapping("/hello")
@@ -23,23 +30,23 @@ public class PersonController {
     @PostMapping("/create")
     // The Person will be passed in via the request body
     public ResponseEntity<Person> createPerson(@RequestBody Person p) {
-        people.add(p);
-        Person created = this.people.get(this.people.size() - 1); // return the last element in the list
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+        return new ResponseEntity<>(this.service.createPerson(p), HttpStatus.CREATED);
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<Person> getPerson(@PathVariable int id) {
         System.out.println("ID: " + id);
 
-        if (id >= this.people.size()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Person found = this.service.getPerson(id);
 
-        return ResponseEntity.ok(this.people.get(id));
+        if (found == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return ResponseEntity.ok(found);
     }
 
     @GetMapping("/getAll")
     public List<Person> getPeople() {
-        return this.people;
+        return this.service.getAll();
     }
 
     @PatchMapping("/update")
@@ -53,21 +60,18 @@ public class PersonController {
         System.out.println("AGE: " + age);
         System.out.println("JOB: " + jobTitle);
 
-        if (id >= this.people.size()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        Person toUpdate = this.people.get(id);
 
-        if (name != null) toUpdate.setName(name);
-        if (age != null) toUpdate.setAge(age);
-        if (jobTitle != null) toUpdate.setJobTitle(jobTitle);
+        Person updated = this.service.updatePerson(id, name, age, jobTitle);
+        if (updated == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        return ResponseEntity.ok(toUpdate);
+        return ResponseEntity.ok(updated);
     }
 
 
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<String> removePerson(@PathVariable int id) {
-        if (id >= this.people.size()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        else return ResponseEntity.ok("Person removed");
-
+        String result = this.service.removePerson(id);
+        if ("NOT FOUND".equalsIgnoreCase(result)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else return ResponseEntity.ok(result);
     }
 }
