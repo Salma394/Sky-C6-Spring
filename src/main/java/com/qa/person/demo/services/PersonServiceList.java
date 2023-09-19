@@ -1,6 +1,7 @@
 package com.qa.person.demo.services;
 
 import com.qa.person.demo.domain.Person;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -52,5 +53,10 @@ public class PersonServiceList implements PersonService {
             this.people.remove(id);
             return "Person removed";
         }
+    }
+
+    @Override
+    public Person findPersonByName(String name) {
+        return null;
     }
 }

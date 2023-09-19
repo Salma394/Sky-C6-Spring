@@ -3,7 +3,6 @@ package com.qa.person.demo.domain;
 import javax.persistence.*;
 
 @Entity // tells Spring this class is linked to a table
-@Table
 public class Person {
 
     @Id // marks the field as a unique identifier (Primary Key)

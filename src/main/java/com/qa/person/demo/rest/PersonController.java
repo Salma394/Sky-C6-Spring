@@ -44,6 +44,11 @@ public class PersonController {
         return ResponseEntity.ok(found);
     }
 
+    @GetMapping("/get/name/{name}")
+    public Person getByName(@PathVariable String name) {
+        return this.service.findPersonByName(name);
+    }
+
     @GetMapping("/getAll")
     public List<Person> getPeople() {
         return this.service.getAll();

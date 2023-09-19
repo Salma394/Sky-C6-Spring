@@ -20,4 +20,6 @@ public interface PersonService {
 
     String removePerson(int id);
 
+    Person findPersonByName(String name);
+
 }
