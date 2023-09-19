@@ -3,7 +3,6 @@ package com.qa.person.demo.rest;
 import com.qa.person.demo.domain.Person;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -40,26 +39,35 @@ public class PersonController {
 
     @GetMapping("/getAll")
     public List<Person> getPeople() {
-        return null;
+        return this.people;
     }
 
     @PatchMapping("/update")
-    public void updatePerson(
-            @RequestParam(name = "id", required = true)  int id,
+    public ResponseEntity<Person> updatePerson(
+            @RequestParam(name = "id", required = true) int id,
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "age", required = false) Integer age,
-            @RequestParam(name = "jobTitle", required = false) String jobTitle
-    ) {
+            @RequestParam(name = "jobTitle", required = false) String jobTitle) {
         System.out.println("ID: " + id);
         System.out.println("NAME: " + name);
         System.out.println("AGE: " + age);
         System.out.println("JOB: " + jobTitle);
-        return;
+
+        if (id >= this.people.size()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Person toUpdate = this.people.get(id);
+
+        if (name != null) toUpdate.setName(name);
+        if (age != null) toUpdate.setAge(age);
+        if (jobTitle != null) toUpdate.setJobTitle(jobTitle);
+
+        return ResponseEntity.ok(toUpdate);
     }
 
 
     @DeleteMapping("/remove/{id}")
-    public String removePerson(@PathVariable int id) {
-        return null;
+    public ResponseEntity<String> removePerson(@PathVariable int id) {
+        if (id >= this.people.size()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else return ResponseEntity.ok("Person removed");
+
     }
 }
