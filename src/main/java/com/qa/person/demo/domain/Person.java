@@ -16,6 +16,13 @@ public class Person {
 
     private String jobTitle;
 
+    public Person(Integer id, String name, int age, String jobTitle) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.jobTitle = jobTitle;
+    }
+
     public Person(String name, int age, String jobTitle) {
         super();
         this.name = name;
@@ -58,5 +65,15 @@ public class Person {
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", jobTitle='" + jobTitle + '\'' +
+                '}';
     }
 }
