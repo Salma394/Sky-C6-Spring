@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity // tells Spring this class is linked to a table
 public class Person {
@@ -25,6 +26,8 @@ public class Person {
 //    @JsonManagedReference
     private List<Book> books;
 
+    private String film;
+
     public Person(Integer id, String name, int age, String jobTitle) {
         this.id = id;
         this.name = name;
@@ -44,6 +47,29 @@ public class Person {
         super();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Person person = (Person) o;
+
+        if (age != person.age) return false;
+        if (!Objects.equals(id, person.id)) return false;
+        if (!Objects.equals(name, person.name)) return false;
+        if (!Objects.equals(jobTitle, person.jobTitle)) return false;
+        return Objects.equals(books, person.books);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + age;
+        result = 31 * result + (jobTitle != null ? jobTitle.hashCode() : 0);
+        result = 31 * result + (books != null ? books.hashCode() : 0);
+        return result;
+    }
 
     public List<Book> getBooks() {
         return books;
@@ -83,6 +109,14 @@ public class Person {
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
+    }
+
+    public String getFilm() {
+        return film;
+    }
+
+    public void setFilm(String film) {
+        this.film = film;
     }
 
     @Override

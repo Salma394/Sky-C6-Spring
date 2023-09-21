@@ -1,11 +1,13 @@
 package com.qa.person.demo.services;
 
 import com.qa.person.demo.domain.Person;
+import com.qa.person.demo.dtos.FilmDTO;
 import com.qa.person.demo.dtos.PersonDTO;
 import com.qa.person.demo.repo.PersonRepo;
 //import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +44,19 @@ public class PersonServiceDB implements PersonService {
 
     @Override
     public List<PersonDTO> getAll() {
+        RestTemplate rest = new RestTemplate();
         List<PersonDTO> dtos = new ArrayList<>();
-
-        for (Person p : this.repo.findAll())
-            dtos.add(new PersonDTO(p));
+        String film = null;
+        PersonDTO dto = null;
+        for (Person p : this.repo.findAll()) {
+            dto = new PersonDTO(p);
+            film = p.getFilm();
+            if (film != null && !film.isBlank()) {
+                   FilmDTO filmDTO =  rest.getForObject("http://www.omdbapi.com?apikey=335035be&i=" + film, FilmDTO.class);
+                   dto.setFilm(filmDTO);
+            }
+        dtos.add(dto);
+        }
 
         return dtos;
     }

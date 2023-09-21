@@ -18,6 +18,8 @@ public class PersonDTO {
 
     private List<BookDTO> books;
 
+    private FilmDTO film;
+
     public PersonDTO(Person p) {
         this.id = p.getId();
         this.name = p.getName();
@@ -74,4 +76,12 @@ public class PersonDTO {
         this.jobTitle = jobTitle;
     }
 
+
+    public FilmDTO getFilm() {
+        return film;
+    }
+
+    public void setFilm(FilmDTO film) {
+        this.film = film;
+    }
 }
