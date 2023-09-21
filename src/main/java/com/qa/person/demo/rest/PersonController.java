@@ -1,6 +1,7 @@
 package com.qa.person.demo.rest;
 
 import com.qa.person.demo.domain.Person;
+import com.qa.person.demo.dtos.PersonDTO;
 import com.qa.person.demo.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class PersonController {
     }
 
     @GetMapping("/getAll")
-    public List<Person> getPeople() {
+    public List<PersonDTO> getPeople() {
         return this.service.getAll();
     }
 

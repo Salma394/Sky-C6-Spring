@@ -1,5 +1,8 @@
 package com.qa.person.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +18,7 @@ public class Book {
 
     // Unidirectional relationship
     @ManyToOne
+//    @JsonBackReference
     private Person owner;
 
     public Book() {

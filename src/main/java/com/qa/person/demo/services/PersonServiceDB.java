@@ -1,11 +1,13 @@
 package com.qa.person.demo.services;
 
 import com.qa.person.demo.domain.Person;
+import com.qa.person.demo.dtos.PersonDTO;
 import com.qa.person.demo.repo.PersonRepo;
 //import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +41,13 @@ public class PersonServiceDB implements PersonService {
     }
 
     @Override
-    public List<Person> getAll() {
-        return this.repo.findAll();
+    public List<PersonDTO> getAll() {
+        List<PersonDTO> dtos = new ArrayList<>();
+
+        for (Person p : this.repo.findAll())
+            dtos.add(new PersonDTO(p));
+
+        return dtos;
     }
 
     @Override

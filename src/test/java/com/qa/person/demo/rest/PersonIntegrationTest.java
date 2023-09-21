@@ -15,6 +15,9 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.List;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -69,5 +72,22 @@ public class PersonIntegrationTest {
         this.mvc.perform(MockMvcRequestBuilders.get("/get/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(resBody));
+    }
+
+    @Test
+    void testReadAll() throws Exception {
+        String resBody = this.mapper.writeValueAsString(List.of(new Person(1, "Barry", 40, "Plumber")));
+        this.mvc.perform(MockMvcRequestBuilders.get("/getAll"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(resBody));
+    }
+
+    @Test
+    void testUpdate() throws Exception {
+        Person updated = new Person(1, "Larry", 30, "Plumber");
+        String resBody = this.mapper.writeValueAsString(updated);
+
+        this.mvc.perform(patch("/update").param("id", "1"));
+
     }
 }

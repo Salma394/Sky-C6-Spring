@@ -1,6 +1,10 @@
 package com.qa.person.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity // tells Spring this class is linked to a table
 public class Person {
@@ -15,6 +19,11 @@ public class Person {
     private int age;
 
     private String jobTitle;
+
+    // Bidirectional relationship
+    @OneToMany(mappedBy = "owner")
+//    @JsonManagedReference
+    private List<Book> books;
 
     public Person(Integer id, String name, int age, String jobTitle) {
         this.id = id;
@@ -33,6 +42,15 @@ public class Person {
     // REQUIRED
     public Person() {
         super();
+    }
+
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     public Integer getId() {
@@ -69,11 +87,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", jobTitle='" + jobTitle + '\'' +
-                '}';
+        return "Person{" + "id=" + id + ", name='" + name + '\'' + ", age=" + age + ", jobTitle='" + jobTitle + '\'' + '}';
     }
 }

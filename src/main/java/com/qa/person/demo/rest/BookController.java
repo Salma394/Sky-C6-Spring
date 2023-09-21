@@ -1,6 +1,7 @@
 package com.qa.person.demo.rest;
 
 import com.qa.person.demo.domain.Book;
+import com.qa.person.demo.dtos.BookDTO;
 import com.qa.person.demo.services.BookService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class BookController {
     }
 
     @GetMapping("/get")
-    public List<Book> getBooks() {
+    public List<BookDTO> getBooks() {
         return this.service.getBooks();
     }
 }
