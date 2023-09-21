@@ -2,10 +2,12 @@ package com.qa.person.demo.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+// Class to represent the film data from the API
 public class FilmDTO {
 
     private String imdbID;
 
+    //dodgy API uses PascalCase for fields so I've had to add some config to let the Jackson library process it
     @JsonProperty("Title")
     private String title;
 

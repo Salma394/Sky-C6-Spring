@@ -18,6 +18,7 @@ public class PersonDTO {
 
     private List<BookDTO> books;
 
+    // Stores the film data fetched from the API
     private FilmDTO film;
 
     public PersonDTO(Person p) {

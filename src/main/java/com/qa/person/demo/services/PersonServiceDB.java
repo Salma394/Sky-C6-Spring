@@ -44,6 +44,7 @@ public class PersonServiceDB implements PersonService {
 
     @Override
     public List<PersonDTO> getAll() {
+        // Used to send and receive data using HTTP
         RestTemplate rest = new RestTemplate();
         List<PersonDTO> dtos = new ArrayList<>();
         String film = null;
@@ -52,6 +53,7 @@ public class PersonServiceDB implements PersonService {
             dto = new PersonDTO(p);
             film = p.getFilm();
             if (film != null && !film.isBlank()) {
+                // Sends a GET request to the address and tries to convert whatever comes back into a FilmDTO
                    FilmDTO filmDTO =  rest.getForObject("http://www.omdbapi.com?apikey=335035be&i=" + film, FilmDTO.class);
                    dto.setFilm(filmDTO);
             }
