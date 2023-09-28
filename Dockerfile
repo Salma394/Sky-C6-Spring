@@ -4,6 +4,6 @@ WORKDIR /build
 RUN mvn clean package
 
 FROM openjdk:11 AS runtime
-WORKDIR /opt/hedgehogs
+WORKDIR /opt/person
 COPY --from=build-stage /build/target/*.jar app.jar
 ENTRYPOINT ["/usr/bin/java", "-jar", "app.jar"]
