@@ -24,7 +24,7 @@ public class PersonController {
     // 'maps' this method to a GET request at /hello
     @GetMapping("/hello")
     public String test() {
-        return "Hello, World!";
+        return "Hello, Jordan!";
     }
 
     // 'maps' the method to a POST request at /crate
